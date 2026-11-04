@@ -156,6 +156,43 @@
             </div>
           </div>
 
+          <!-- Player Names Configuration -->
+          <div class="names-panel" aria-label="Player Names">
+            <div class="name-input-group" id="player1-name-group">
+              <label for="player1-name-input" class="name-input-label">
+                <span class="status-badge badge-x" id="player1-badge">X</span>
+                <span id="player1-label-text">Your Name:</span>
+              </label>
+              <input 
+                id="player1-name-input" 
+                class="name-input" 
+                type="text" 
+                maxlength="14" 
+                placeholder="Player 1" 
+                value="Player 1" 
+                autocomplete="off" 
+                spellcheck="false"
+              />
+            </div>
+
+            <div class="name-input-group" id="player2-name-group" style="display: none;">
+              <label for="player2-name-input" class="name-input-label">
+                <span class="status-badge badge-o" id="player2-badge">O</span>
+                <span id="player2-label-text">Player 2 Name:</span>
+              </label>
+              <input 
+                id="player2-name-input" 
+                class="name-input" 
+                type="text" 
+                maxlength="14" 
+                placeholder="Player 2" 
+                value="Player 2" 
+                autocomplete="off" 
+                spellcheck="false"
+              />
+            </div>
+          </div>
+
           <!-- Reset Scores Button -->
           <div class="sidebar-actions">
             <button id="reset-score-btn" class="btn btn-secondary btn-full" type="button" title="Reset all scoreboards">

@@ -260,6 +260,52 @@
   width: 100%;
 }
 
+/* Player Names Panel */
+.names-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.name-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.name-input-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.name-input {
+  flex: 1;
+  max-width: 180px;
+  background: var(--cell-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.name-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent-glow);
+}
+
 /* Icon Buttons (Header actions) */
 .icon-btn {
   width: 2.25rem;

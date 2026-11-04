@@ -39,6 +39,8 @@ class TicTacToeApp {
     this.savedSide = localStorage.getItem('ttt_side') || PLAYER_X;
     this.firstMovePreference = localStorage.getItem('ttt_first_move') || 'human'; // 'human', 'ai', 'alternate'
     this.alternateNext = 'human';
+    this.player1Name = localStorage.getItem('ttt_p1_name') || 'Player 1';
+    this.player2Name = localStorage.getItem('ttt_p2_name') || 'Player 2';
 
     // Initialize Game Engine
     this.engine = new TicTacToeEngine({
@@ -61,6 +63,15 @@ class TicTacToeApp {
     this.scoreCardO = document.getElementById('score-card-o');
     this.playerXTitle = document.getElementById('player-x-title');
     this.playerOTitle = document.getElementById('player-o-title');
+
+    this.player1NameInput = document.getElementById('player1-name-input');
+    this.player2NameInput = document.getElementById('player2-name-input');
+    this.player1NameGroup = document.getElementById('player1-name-group');
+    this.player2NameGroup = document.getElementById('player2-name-group');
+    this.player1LabelText = document.getElementById('player1-label-text');
+    this.player2LabelText = document.getElementById('player2-label-text');
+    this.player1Badge = document.getElementById('player1-badge');
+    this.player2Badge = document.getElementById('player2-badge');
 
     this.newRoundBtn = document.getElementById('new-round-btn');
     this.resetScoreBtn = document.getElementById('reset-score-btn');
@@ -90,6 +101,7 @@ class TicTacToeApp {
     this.applyTheme(this.savedTheme);
     this.updateSoundIcon();
     this.updateScoreboardDisplay();
+    this.updateNamesUI();
     this.updateModeUI();
     this.updateSideUI();
     this.updateFirstMoveUI();
@@ -122,10 +134,41 @@ class TicTacToeApp {
     }
   }
 
-  updateTitles() {
+  updateNamesUI() {
+    if (this.player1NameInput) this.player1NameInput.value = this.player1Name;
+    if (this.player2NameInput) this.player2NameInput.value = this.player2Name;
+
     if (this.engine.mode === GAME_MODES.PVP) {
-      this.playerXTitle.textContent = 'Player X';
-      this.playerOTitle.textContent = 'Player O';
+      if (this.player1NameGroup) this.player1NameGroup.style.display = 'flex';
+      if (this.player2NameGroup) this.player2NameGroup.style.display = 'flex';
+      if (this.player1LabelText) this.player1LabelText.textContent = 'Player 1:';
+      if (this.player2LabelText) this.player2LabelText.textContent = 'Player 2:';
+      if (this.player1Badge) {
+        this.player1Badge.textContent = 'X';
+        this.player1Badge.className = 'status-badge badge-x';
+      }
+      if (this.player2Badge) {
+        this.player2Badge.textContent = 'O';
+        this.player2Badge.className = 'status-badge badge-o';
+      }
+    } else {
+      if (this.player1NameGroup) this.player1NameGroup.style.display = 'flex';
+      if (this.player2NameGroup) this.player2NameGroup.style.display = 'none';
+      if (this.player1LabelText) this.player1LabelText.textContent = 'Your Name:';
+      if (this.player1Badge) {
+        this.player1Badge.textContent = this.engine.humanPlayer;
+        this.player1Badge.className = this.engine.humanPlayer === PLAYER_X ? 'status-badge badge-x' : 'status-badge badge-o';
+      }
+    }
+  }
+
+  updateTitles() {
+    const p1 = (this.player1Name || '').trim() || 'Player 1';
+    const p2 = (this.player2Name || '').trim() || 'Player 2';
+
+    if (this.engine.mode === GAME_MODES.PVP) {
+      this.playerXTitle.textContent = p1;
+      this.playerOTitle.textContent = p2;
     } else {
       const modeLabel = {
         [GAME_MODES.AI_EASY]: 'AI (Easy)',
@@ -134,11 +177,11 @@ class TicTacToeApp {
       }[this.engine.mode] || 'AI';
 
       if (this.engine.humanPlayer === PLAYER_X) {
-        this.playerXTitle.textContent = 'You (X)';
+        this.playerXTitle.textContent = p1;
         this.playerOTitle.textContent = modeLabel;
       } else {
         this.playerXTitle.textContent = modeLabel;
-        this.playerOTitle.textContent = 'You (O)';
+        this.playerOTitle.textContent = p1;
       }
     }
   }
@@ -174,12 +217,14 @@ class TicTacToeApp {
       if (sideRow) sideRow.style.display = 'flex';
       if (firstMoveRow) firstMoveRow.style.display = 'flex';
     }
+    this.updateNamesUI();
   }
 
   updateSideUI() {
     this.sideButtons.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.side === this.engine.humanPlayer);
     });
+    this.updateNamesUI();
   }
 
   updateFirstMoveUI() {
@@ -276,9 +321,12 @@ class TicTacToeApp {
           ? `<span class="status-badge badge-x">X</span>`
           : `<span class="status-badge badge-o">O</span>`;
 
-        let winnerName = `Player ${winner}`;
+        const p1 = (this.player1Name || '').trim() || 'Player 1';
+        const p2 = (this.player2Name || '').trim() || 'Player 2';
+
+        let winnerName = winner === PLAYER_X ? `${p1} won!` : `${p2} won!`;
         if (mode !== GAME_MODES.PVP) {
-          winnerName = winner === humanPlayer ? 'You won!' : 'AI won!';
+          winnerName = winner === humanPlayer ? `${p1} won!` : 'AI won!';
         }
 
         this.statusText.innerHTML = `${winnerBadge} <span>${winnerName}</span>`;
@@ -308,9 +356,12 @@ class TicTacToeApp {
           ? `<span class="status-badge badge-x">X</span>`
           : `<span class="status-badge badge-o">O</span>`;
 
-        let turnName = `Player ${currentPlayer}'s turn`;
+        const p1 = (this.player1Name || '').trim() || 'Player 1';
+        const p2 = (this.player2Name || '').trim() || 'Player 2';
+
+        let turnName = currentPlayer === PLAYER_X ? `${p1}'s turn` : `${p2}'s turn`;
         if (mode !== GAME_MODES.PVP) {
-          turnName = currentPlayer === humanPlayer ? 'Your turn' : "AI's turn";
+          turnName = currentPlayer === humanPlayer ? `${p1}'s turn` : "AI's turn";
         }
         this.statusText.innerHTML = `${turnBadge} <span>${turnName}</span>`;
       }
@@ -483,6 +534,25 @@ class TicTacToeApp {
       });
     });
 
+    // Player Name Inputs (Live Real-Time Sync)
+    if (this.player1NameInput) {
+      this.player1NameInput.addEventListener('input', (e) => {
+        this.player1Name = e.target.value.trim() || 'Player 1';
+        localStorage.setItem('ttt_p1_name', this.player1Name);
+        this.updateTitles();
+        this.updateStatus();
+      });
+    }
+
+    if (this.player2NameInput) {
+      this.player2NameInput.addEventListener('input', (e) => {
+        this.player2Name = e.target.value.trim() || 'Player 2';
+        localStorage.setItem('ttt_p2_name', this.player2Name);
+        this.updateTitles();
+        this.updateStatus();
+      });
+    }
+
     // Modal Dialog handling (Modern Web Guidance compliance)
     this.helpBtn.addEventListener('click', () => {
       this.helpDialog.showModal();
@@ -511,6 +581,11 @@ class TicTacToeApp {
 
     // Keyboard Navigation & Shortcuts
     window.addEventListener('keydown', (e) => {
+      // Ignore game hotkeys if user is actively typing inside a name input field
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+        return;
+      }
+
       if (this.helpDialog.open && e.key !== 'Escape') {
         return; // Let dialog handle keys when open
       }

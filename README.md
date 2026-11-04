@@ -20,6 +20,7 @@ An interactive, responsive, and accessible **Tic-Tac-Toe Web Application** built
   - **Medium AI**: Tactical heuristic AI that seizes immediate winning moves, blocks opponent wins, and prioritizes center and corners.
   - **Unbeatable AI (Hard)**: Flawless minimax algorithm with zero defeats.
 - **Customization**:
+  - **Custom Player Names**: Input your custom name, and in 2-player mode customize both Player 1 and Player 2 names with real-time scoreboard, banner, and persistence updates.
   - Choose your symbol (**X** or **O**).
   - Configurable first move: **You First**, **AI First**, or **Alternate**.
 
