@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyber-dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive, accessible, and responsive Tic-Tac-Toe Web Application with Minimax AI, multi-theme customization, Web Audio synthesizer, and keyboard navigation.">
+  <meta name="theme-color" content="#0f172a">
+  <title>Tic-Tac-Toe | Prodigy InfoTech Task-03</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a href="#board-grid" class="skip-link">Skip to game board</a>
+
+  <!-- Confetti Celebration Canvas -->
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" stroke-width="2.5">
+            <line x1="3" y1="3" x2="11" y2="11" />
+            <line x1="11" y1="3" x2="3" y2="11" />
+            <circle cx="17.5" cy="17.5" r="4.5" fill="none" />
+          </svg>
+        </div>
+        <h1 class="brand-title">Tic-Tac-Toe</h1>
+      </div>
+
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-btn" class="icon-btn" type="button" aria-label="Change theme" title="Cycle theme (T)">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+          </svg>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="sound-btn" class="icon-btn" type="button" aria-label="Toggle sound" title="Toggle sound (M)">
+          <svg id="sound-icon-on" viewBox="0 0 24 24">
+            <path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07l-1.41-1.41a3 3 0 0 0 0-4.24l1.41-1.42zM19.07 4.93a10 10 0 0 1 0 14.14l-1.41-1.41a8 8 0 0 0 0-11.31l1.41-1.42z"/>
+          </svg>
+          <svg id="sound-icon-off" viewBox="0 0 24 24" style="display: none;">
+            <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+          </svg>
+        </button>
+
+        <!-- Help / Rules Modal Button -->
+        <button id="help-btn" class="icon-btn" type="button" aria-label="Game rules and keyboard shortcuts" title="Help & Shortcuts (?)">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.65z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scoreboard -->
+    <section class="scoreboard" aria-label="Game score">
+      <div id="score-card-x" class="score-card player-x active-turn">
+        <span class="score-label">
+          <span class="status-badge badge-x">X</span>
+          <span id="player-x-title">Player X</span>
+        </span>
+        <span id="score-x" class="score-value">0</span>
+        <span class="turn-pill">TURN</span>
+      </div>
+
+      <div class="score-card ties">
+        <span class="score-label">Ties</span>
+        <span id="score-ties" class="score-value">0</span>
+      </div>
+
+      <div id="score-card-o" class="score-card player-o">
+        <span class="score-label">
+          <span class="status-badge badge-o">O</span>
+          <span id="player-o-title">AI (Hard)</span>
+        </span>
+        <span id="score-o" class="score-value">0</span>
+        <span class="turn-pill">TURN</span>
+      </div>
+    </section>
+
+    <!-- Status Banner -->
+    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+      <span id="status-text" class="status-text">Player X's turn</span>
+    </div>
+
+    <!-- 3x3 Game Board -->
+    <main class="board-container">
+      <svg id="win-line-svg" class="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Dynamic winning stroke-line inserted here on game over -->
+      </svg>
+
+      <div id="board-grid" class="board" role="grid" aria-label="Tic-Tac-Toe 3 by 3 grid">
+        <button class="cell" data-index="0" role="gridcell" aria-label="Row 1, Column 1, empty"></button>
+        <button class="cell" data-index="1" role="gridcell" aria-label="Row 1, Column 2, empty"></button>
+        <button class="cell" data-index="2" role="gridcell" aria-label="Row 1, Column 3, empty"></button>
+
+        <button class="cell" data-index="3" role="gridcell" aria-label="Row 2, Column 1, empty"></button>
+        <button class="cell" data-index="4" role="gridcell" aria-label="Row 2, Column 2, empty"></button>
+        <button class="cell" data-index="5" role="gridcell" aria-label="Row 2, Column 3, empty"></button>
+
+        <button class="cell" data-index="6" role="gridcell" aria-label="Row 3, Column 1, empty"></button>
+        <button class="cell" data-index="7" role="gridcell" aria-label="Row 3, Column 2, empty"></button>
+        <button class="cell" data-index="8" role="gridcell" aria-label="Row 3, Column 3, empty"></button>
+      </div>
+    </main>
+
+    <!-- Options & Settings Panel -->
+    <section class="options-panel" aria-label="Game Configuration">
+      <!-- Mode Selection -->
+      <div class="option-row">
+        <span class="option-label">Game Mode:</span>
+        <div class="segmented-control" role="group" aria-label="Game Mode Selection">
+          <button class="segmented-btn" data-mode="pvp" type="button">2 Players</button>
+          <button class="segmented-btn" data-mode="ai_easy" type="button">Easy AI</button>
+          <button class="segmented-btn" data-mode="ai_medium" type="button">Medium</button>
+          <button class="segmented-btn active" data-mode="ai_hard" type="button">Unbeatable</button>
+        </div>
+      </div>
+
+      <!-- Player Side Selection (X or O) -->
+      <div id="side-select-row" class="option-row">
+        <span class="option-label">Your Symbol:</span>
+        <div class="segmented-control" role="group" aria-label="Play as X or O">
+          <button id="side-btn-x" class="segmented-btn active" data-side="X" type="button">Play as X</button>
+          <button id="side-btn-o" class="segmented-btn" data-side="O" type="button">Play as O</button>
+        </div>
+      </div>
+
+      <!-- First Move Selection -->
+      <div id="first-move-row" class="option-row">
+        <span class="option-label">First Move:</span>
+        <div class="segmented-control" role="group" aria-label="Who moves first">
+          <button class="segmented-btn active" data-first="human" type="button">You First</button>
+          <button class="segmented-btn" data-first="ai" type="button">AI First</button>
+          <button class="segmented-btn" data-first="alternate" type="button">Alternate</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls -->
+    <div class="controls-group">
+      <button id="new-round-btn" class="btn btn-primary" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg>
+        New Round
+      </button>
+
+      <button id="undo-btn" class="btn btn-secondary" type="button" disabled title="Undo last move (U)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
+        </svg>
+        Undo
+      </button>
+
+      <button id="reset-score-btn" class="btn btn-secondary" type="button" title="Reset all scoreboards">
+        Reset Score
+      </button>
+    </div>
+  </div>
+
+  <!-- Help & Shortcuts Dialog (Native HTML5 Dialog) -->
+  <dialog id="help-dialog" class="dialog-modal" closedby="any" aria-labelledby="help-dialog-title">
+    <div class="dialog-header">
+      <h2 id="help-dialog-title" class="dialog-title">Rules & Controls</h2>
+      <button id="dialog-close-icon" class="icon-btn" type="button" aria-label="Close dialog">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="dialog-body">
+      <h3>Game Objective</h3>
+      <p>Place 3 of your markers in a horizontal, vertical, or diagonal line before your opponent does. In <strong>Unbeatable</strong> mode, the AI plays with the optimal Minimax algorithm.</p>
+
+      <h3>Keyboard Shortcuts</h3>
+      <table class="shortcuts-table">
+        <tbody>
+          <tr>
+            <td><kbd>&uarr;</kbd> <kbd>&darr;</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd></td>
+            <td>Navigate grid cells</td>
+          </tr>
+          <tr>
+            <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+            <td>Place marker on focused cell</td>
+          </tr>
+          <tr>
+            <td><kbd>1</kbd> &ndash; <kbd>9</kbd></td>
+            <td>Quick-place marker on corresponding cell</td>
+          </tr>
+          <tr>
+            <td><kbd>R</kbd></td>
+            <td>Start new round</td>
+          </tr>
+          <tr>
+            <td><kbd>U</kbd></td>
+            <td>Undo last move</td>
+          </tr>
+          <tr>
+            <td><kbd>M</kbd></td>
+            <td>Toggle sound effects</td>
+          </tr>
+          <tr>
+            <td><kbd>T</kbd></td>
+            <td>Cycle visual theme</td>
+          </tr>
+          <tr>
+            <td><kbd>?</kbd> / <kbd>Esc</kbd></td>
+            <td>Open / Close this dialog</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <form method="dialog" class="dialog-footer">
+      <button class="btn btn-primary" value="close" autofocus>Got it!</button>
+    </form>
+  </dialog>
+
+  <!-- Application Script -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

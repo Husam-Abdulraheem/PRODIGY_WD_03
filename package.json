@@ -1,0 +1,24 @@
+{
+  "name": "prodigy_wd_03",
+  "version": "1.0.0",
+  "description": "Interactive, responsive, and accessible Tic-Tac-Toe Web Application with Minimax AI, multi-theme customization, Web Audio synthesizer, and full keyboard navigation for Prodigy InfoTech internship Task-03.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/**/*.test.js",
+    "lint": "node ./scripts/lint.js",
+    "build": "node ./scripts/build-check.js",
+    "check": "npm run test && npm run lint && npm run build"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "minimax",
+    "ai",
+    "game",
+    "javascript",
+    "html5",
+    "css3",
+    "web-audio-api",
+    "prodigy-infotech"
+  ],
+  "author": "Husam Abdulraheem"
+}

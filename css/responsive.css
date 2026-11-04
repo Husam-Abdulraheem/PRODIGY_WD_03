@@ -1,0 +1,72 @@
+/**
+ * Responsive Design & Media Queries
+ */
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .app-container {
+    gap: 1rem;
+  }
+
+  .brand-title {
+    font-size: 1.25rem;
+  }
+
+  .board {
+    max-width: 340px;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .cell {
+    border-radius: 10px;
+    min-height: 80px;
+  }
+
+  .score-value {
+    font-size: 1.4rem;
+  }
+
+  .score-label {
+    font-size: 0.72rem;
+  }
+
+  .option-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .segmented-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .segmented-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.35rem 0.4rem;
+    font-size: 0.72rem;
+  }
+
+  .btn {
+    padding: 0.55rem 1rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .board {
+    max-width: 380px;
+  }
+}
+
+@media (min-width: 769px) {
+  .board {
+    max-width: 420px;
+  }
+}
