@@ -245,6 +245,21 @@
   transform: none !important;
 }
 
+.btn-full {
+  width: 100%;
+}
+
+.controls-group #new-round-btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+.sidebar-actions {
+  margin-top: 0.25rem;
+  width: 100%;
+}
+
 /* Icon Buttons (Header actions) */
 .icon-btn {
   width: 2.25rem;

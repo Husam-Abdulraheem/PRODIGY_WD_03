@@ -63,6 +63,7 @@ class TicTacToeApp {
     this.playerOTitle = document.getElementById('player-o-title');
 
     this.newRoundBtn = document.getElementById('new-round-btn');
+    this.quickRestartBtn = document.getElementById('quick-restart-btn');
     this.resetScoreBtn = document.getElementById('reset-score-btn');
     this.themeBtn = document.getElementById('theme-btn');
     this.soundBtn = document.getElementById('sound-btn');
@@ -439,6 +440,9 @@ class TicTacToeApp {
 
     // Control buttons
     this.newRoundBtn.addEventListener('click', () => this.startNewRound());
+    if (this.quickRestartBtn) {
+      this.quickRestartBtn.addEventListener('click', () => this.startNewRound());
+    }
     this.resetScoreBtn.addEventListener('click', () => this.resetScores());
 
     // Theme & Sound

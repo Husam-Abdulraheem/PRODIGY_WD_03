@@ -29,6 +29,13 @@
       </div>
 
       <div class="header-actions">
+        <!-- Quick Restart Button -->
+        <button id="quick-restart-btn" class="icon-btn" type="button" aria-label="New round" title="New Round (R)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+        </button>
+
         <!-- Theme Toggle -->
         <button id="theme-btn" class="icon-btn" type="button" aria-label="Change theme" title="Cycle theme (T)">
           <svg viewBox="0 0 24 24">
@@ -55,103 +62,115 @@
       </div>
     </header>
 
-    <!-- Scoreboard -->
-    <section class="scoreboard" aria-label="Game score">
-      <div id="score-card-x" class="score-card player-x active-turn">
-        <span class="score-label">
-          <span class="status-badge badge-x">X</span>
-          <span id="player-x-title">Player X</span>
-        </span>
-        <span id="score-x" class="score-value">0</span>
-        <span class="turn-pill">TURN</span>
-      </div>
+    <!-- Main Game Workspace (Side-by-Side on Laptop/Desktop, Vertical on Mobile) -->
+    <div class="game-workspace">
+      <!-- Play Zone: Status, 3x3 Board, and Immediate New Round Button -->
+      <div class="game-play-zone">
+        <!-- Status Banner -->
+        <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+          <span id="status-text" class="status-text">Player X's turn</span>
+        </div>
 
-      <div class="score-card ties">
-        <span class="score-label">Ties</span>
-        <span id="score-ties" class="score-value">0</span>
-      </div>
+        <!-- 3x3 Game Board -->
+        <main class="board-container">
+          <div id="board-grid" class="board" role="grid" aria-label="Tic-Tac-Toe 3 by 3 grid">
+            <svg id="win-line-svg" class="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <!-- Dynamic winning stroke-line inserted here on game over -->
+            </svg>
 
-      <div id="score-card-o" class="score-card player-o">
-        <span class="score-label">
-          <span class="status-badge badge-o">O</span>
-          <span id="player-o-title">AI (Hard)</span>
-        </span>
-        <span id="score-o" class="score-value">0</span>
-        <span class="turn-pill">TURN</span>
-      </div>
-    </section>
+            <button class="cell" data-index="0" role="gridcell" aria-label="Row 1, Column 1, empty"></button>
+            <button class="cell" data-index="1" role="gridcell" aria-label="Row 1, Column 2, empty"></button>
+            <button class="cell" data-index="2" role="gridcell" aria-label="Row 1, Column 3, empty"></button>
 
-    <!-- Status Banner -->
-    <div id="status-banner" class="status-banner" role="status" aria-live="polite">
-      <span id="status-text" class="status-text">Player X's turn</span>
-    </div>
+            <button class="cell" data-index="3" role="gridcell" aria-label="Row 2, Column 1, empty"></button>
+            <button class="cell" data-index="4" role="gridcell" aria-label="Row 2, Column 2, empty"></button>
+            <button class="cell" data-index="5" role="gridcell" aria-label="Row 2, Column 3, empty"></button>
 
-    <!-- 3x3 Game Board -->
-    <main class="board-container">
-      <div id="board-grid" class="board" role="grid" aria-label="Tic-Tac-Toe 3 by 3 grid">
-        <svg id="win-line-svg" class="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <!-- Dynamic winning stroke-line inserted here on game over -->
-        </svg>
+            <button class="cell" data-index="6" role="gridcell" aria-label="Row 3, Column 1, empty"></button>
+            <button class="cell" data-index="7" role="gridcell" aria-label="Row 3, Column 2, empty"></button>
+            <button class="cell" data-index="8" role="gridcell" aria-label="Row 3, Column 3, empty"></button>
+          </div>
+        </main>
 
-        <button class="cell" data-index="0" role="gridcell" aria-label="Row 1, Column 1, empty"></button>
-        <button class="cell" data-index="1" role="gridcell" aria-label="Row 1, Column 2, empty"></button>
-        <button class="cell" data-index="2" role="gridcell" aria-label="Row 1, Column 3, empty"></button>
-
-        <button class="cell" data-index="3" role="gridcell" aria-label="Row 2, Column 1, empty"></button>
-        <button class="cell" data-index="4" role="gridcell" aria-label="Row 2, Column 2, empty"></button>
-        <button class="cell" data-index="5" role="gridcell" aria-label="Row 2, Column 3, empty"></button>
-
-        <button class="cell" data-index="6" role="gridcell" aria-label="Row 3, Column 1, empty"></button>
-        <button class="cell" data-index="7" role="gridcell" aria-label="Row 3, Column 2, empty"></button>
-        <button class="cell" data-index="8" role="gridcell" aria-label="Row 3, Column 3, empty"></button>
-      </div>
-    </main>
-
-    <!-- Options & Settings Panel -->
-    <section class="options-panel" aria-label="Game Configuration">
-      <!-- Mode Selection -->
-      <div class="option-row">
-        <span class="option-label">Game Mode:</span>
-        <div class="segmented-control" role="group" aria-label="Game Mode Selection">
-          <button class="segmented-btn" data-mode="pvp" type="button">2 Players</button>
-          <button class="segmented-btn" data-mode="ai_easy" type="button">Easy AI</button>
-          <button class="segmented-btn" data-mode="ai_medium" type="button">Medium</button>
-          <button class="segmented-btn active" data-mode="ai_hard" type="button">Unbeatable</button>
+        <!-- Primary Controls (Directly below board for effortless access on laptop) -->
+        <div class="controls-group">
+          <button id="new-round-btn" class="btn btn-primary" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            New Round
+          </button>
         </div>
       </div>
 
-      <!-- Player Side Selection (X or O) -->
-      <div id="side-select-row" class="option-row">
-        <span class="option-label">Your Symbol:</span>
-        <div class="segmented-control" role="group" aria-label="Play as X or O">
-          <button id="side-btn-x" class="segmented-btn active" data-side="X" type="button">Play as X</button>
-          <button id="side-btn-o" class="segmented-btn" data-side="O" type="button">Play as O</button>
-        </div>
-      </div>
+      <!-- Sidebar: Scoreboard & Configuration Options -->
+      <aside class="game-sidebar">
+        <!-- Scoreboard -->
+        <section class="scoreboard" aria-label="Game score">
+          <div id="score-card-x" class="score-card player-x active-turn">
+            <span class="score-label">
+              <span class="status-badge badge-x">X</span>
+              <span id="player-x-title">Player X</span>
+            </span>
+            <span id="score-x" class="score-value">0</span>
+            <span class="turn-pill">TURN</span>
+          </div>
 
-      <!-- First Move Selection -->
-      <div id="first-move-row" class="option-row">
-        <span class="option-label">First Move:</span>
-        <div class="segmented-control" role="group" aria-label="Who moves first">
-          <button class="segmented-btn active" data-first="human" type="button">You First</button>
-          <button class="segmented-btn" data-first="ai" type="button">AI First</button>
-          <button class="segmented-btn" data-first="alternate" type="button">Alternate</button>
-        </div>
-      </div>
-    </section>
+          <div class="score-card ties">
+            <span class="score-label">Ties</span>
+            <span id="score-ties" class="score-value">0</span>
+          </div>
 
-    <!-- Controls -->
-    <div class="controls-group">
-      <button id="new-round-btn" class="btn btn-primary" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-        </svg>
-        New Round
-      </button>
+          <div id="score-card-o" class="score-card player-o">
+            <span class="score-label">
+              <span class="status-badge badge-o">O</span>
+              <span id="player-o-title">AI (Hard)</span>
+            </span>
+            <span id="score-o" class="score-value">0</span>
+            <span class="turn-pill">TURN</span>
+          </div>
+        </section>
 
-      <button id="reset-score-btn" class="btn btn-secondary" type="button" title="Reset all scoreboards">
-        Reset Score
-      </button>
+        <!-- Options & Settings Panel -->
+        <section class="options-panel" aria-label="Game Configuration">
+          <!-- Mode Selection -->
+          <div class="option-row">
+            <span class="option-label">Game Mode:</span>
+            <div class="segmented-control" role="group" aria-label="Game Mode Selection">
+              <button class="segmented-btn" data-mode="pvp" type="button">2 Players</button>
+              <button class="segmented-btn" data-mode="ai_easy" type="button">Easy AI</button>
+              <button class="segmented-btn" data-mode="ai_medium" type="button">Medium</button>
+              <button class="segmented-btn active" data-mode="ai_hard" type="button">Unbeatable</button>
+            </div>
+          </div>
+
+          <!-- Player Side Selection (X or O) -->
+          <div id="side-select-row" class="option-row">
+            <span class="option-label">Your Symbol:</span>
+            <div class="segmented-control" role="group" aria-label="Play as X or O">
+              <button id="side-btn-x" class="segmented-btn active" data-side="X" type="button">Play as X</button>
+              <button id="side-btn-o" class="segmented-btn" data-side="O" type="button">Play as O</button>
+            </div>
+          </div>
+
+          <!-- First Move Selection -->
+          <div id="first-move-row" class="option-row">
+            <span class="option-label">First Move:</span>
+            <div class="segmented-control" role="group" aria-label="Who moves first">
+              <button class="segmented-btn active" data-first="human" type="button">You First</button>
+              <button class="segmented-btn" data-first="ai" type="button">AI First</button>
+              <button class="segmented-btn" data-first="alternate" type="button">Alternate</button>
+            </div>
+          </div>
+
+          <!-- Reset Scores Button -->
+          <div class="sidebar-actions">
+            <button id="reset-score-btn" class="btn btn-secondary btn-full" type="button" title="Reset all scoreboards">
+              Reset Scores
+            </button>
+          </div>
+        </section>
+      </aside>
     </div>
   </div>
 
