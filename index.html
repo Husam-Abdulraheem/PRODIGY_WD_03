@@ -88,11 +88,11 @@
 
     <!-- 3x3 Game Board -->
     <main class="board-container">
-      <svg id="win-line-svg" class="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <!-- Dynamic winning stroke-line inserted here on game over -->
-      </svg>
-
       <div id="board-grid" class="board" role="grid" aria-label="Tic-Tac-Toe 3 by 3 grid">
+        <svg id="win-line-svg" class="win-line-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <!-- Dynamic winning stroke-line inserted here on game over -->
+        </svg>
+
         <button class="cell" data-index="0" role="gridcell" aria-label="Row 1, Column 1, empty"></button>
         <button class="cell" data-index="1" role="gridcell" aria-label="Row 1, Column 2, empty"></button>
         <button class="cell" data-index="2" role="gridcell" aria-label="Row 1, Column 3, empty"></button>
@@ -149,13 +149,6 @@
         New Round
       </button>
 
-      <button id="undo-btn" class="btn btn-secondary" type="button" disabled title="Undo last move (U)">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 7v6h6M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>
-        </svg>
-        Undo
-      </button>
-
       <button id="reset-score-btn" class="btn btn-secondary" type="button" title="Reset all scoreboards">
         Reset Score
       </button>
@@ -195,10 +188,6 @@
           <tr>
             <td><kbd>R</kbd></td>
             <td>Start new round</td>
-          </tr>
-          <tr>
-            <td><kbd>U</kbd></td>
-            <td>Undo last move</td>
           </tr>
           <tr>
             <td><kbd>M</kbd></td>

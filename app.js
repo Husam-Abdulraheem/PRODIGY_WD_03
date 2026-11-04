@@ -63,7 +63,6 @@ class TicTacToeApp {
     this.playerOTitle = document.getElementById('player-o-title');
 
     this.newRoundBtn = document.getElementById('new-round-btn');
-    this.undoBtn = document.getElementById('undo-btn');
     this.resetScoreBtn = document.getElementById('reset-score-btn');
     this.themeBtn = document.getElementById('theme-btn');
     this.soundBtn = document.getElementById('sound-btn');
@@ -257,9 +256,6 @@ class TicTacToeApp {
         cell.setAttribute('aria-label', `Row ${Math.floor(index / 3) + 1}, Column ${(index % 3) + 1}, empty`);
       }
     });
-
-    // Undo button state
-    this.undoBtn.disabled = this.engine.history.length === 0 || isGameOver || this.isAiThinking;
   }
 
   updateStatus() {
@@ -333,15 +329,27 @@ class TicTacToeApp {
     const startCell = this.cells[startIdx];
     const endCell = this.cells[endIdx];
 
-    const boardRect = this.boardGrid.getBoundingClientRect();
-    const startRect = startCell.getBoundingClientRect();
-    const endRect = endCell.getBoundingClientRect();
+    const boardW = this.boardGrid.clientWidth;
+    const boardH = this.boardGrid.clientHeight;
 
-    // Coordinates in percentage relative to board container
-    const x1 = (((startRect.left + startRect.width / 2) - boardRect.left) / boardRect.width) * 100;
-    const y1 = (((startRect.top + startRect.height / 2) - boardRect.top) / boardRect.height) * 100;
-    const x2 = (((endRect.left + endRect.width / 2) - boardRect.left) / boardRect.width) * 100;
-    const y2 = (((endRect.top + endRect.height / 2) - boardRect.top) / boardRect.height) * 100;
+    const startX = startCell.offsetLeft + (startCell.offsetWidth / 2);
+    const startY = startCell.offsetTop + (startCell.offsetHeight / 2);
+    const endX = endCell.offsetLeft + (endCell.offsetWidth / 2);
+    const endY = endCell.offsetTop + (endCell.offsetHeight / 2);
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+    const len = Math.hypot(dx, dy);
+
+    // Extension offset in pixels so line cleanly spans across the cells
+    const ext = 28;
+    const ux = len > 0 ? (dx / len) : 0;
+    const uy = len > 0 ? (dy / len) : 0;
+
+    const x1 = ((startX - ux * ext) / boardW) * 100;
+    const y1 = ((startY - uy * ext) / boardH) * 100;
+    const x2 = ((endX + ux * ext) / boardW) * 100;
+    const y2 = ((endY + uy * ext) / boardH) * 100;
 
     const lineEl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     lineEl.setAttribute('x1', `${x1}`);
@@ -409,18 +417,6 @@ class TicTacToeApp {
     }, delay);
   }
 
-  handleUndo() {
-    if (this.engine.history.length === 0 || this.engine.isGameOver || this.isAiThinking) {
-      return;
-    }
-
-    this.clearWinningLine();
-    this.engine.undo();
-    sounds.playReset();
-    this.renderBoard();
-    this.updateStatus();
-  }
-
   bindEvents() {
     // Board cells click & hover
     this.cells.forEach((cell) => {
@@ -443,7 +439,6 @@ class TicTacToeApp {
 
     // Control buttons
     this.newRoundBtn.addEventListener('click', () => this.startNewRound());
-    this.undoBtn.addEventListener('click', () => this.handleUndo());
     this.resetScoreBtn.addEventListener('click', () => this.resetScores());
 
     // Theme & Sound
@@ -530,9 +525,6 @@ class TicTacToeApp {
       switch (e.key.toLowerCase()) {
         case 'r':
           this.startNewRound();
-          break;
-        case 'u':
-          this.handleUndo();
           break;
         case 'm':
           sounds.toggleMute();

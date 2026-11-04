@@ -22,7 +22,6 @@ An interactive, responsive, and accessible **Tic-Tac-Toe Web Application** built
 - **Customization**:
   - Choose your symbol (**X** or **O**).
   - Configurable first move: **You First**, **AI First**, or **Alternate**.
-  - Move undo support for taking back decisions.
 
 ### 2. Modern Glassmorphic Visual Design & Animations
 - Fluid SVG animations for drawing markers (**X** cross lines and **O** circle stroke dashoffset).
@@ -48,7 +47,7 @@ An interactive, responsive, and accessible **Tic-Tac-Toe Web Application** built
   - Arrow keys (<kbd>&uarr;</kbd> <kbd>&darr;</kbd> <kbd>&larr;</kbd> <kbd>&rarr;</kbd>) to navigate the 3&times;3 board grid.
   - <kbd>Enter</kbd> or <kbd>Space</kbd> to place marker on the focused cell.
   - Number keys <kbd>1</kbd>&ndash;<kbd>9</kbd> for quick direct placement.
-  - Quick action shortcuts: <kbd>R</kbd> (New Round), <kbd>U</kbd> (Undo), <kbd>M</kbd> (Mute audio), <kbd>T</kbd> (Cycle theme), <kbd>?</kbd> (Rules & shortcuts modal).
+  - Quick action shortcuts: <kbd>R</kbd> (New Round), <kbd>M</kbd> (Mute audio), <kbd>T</kbd> (Cycle theme), <kbd>?</kbd> (Rules & shortcuts modal).
 - ARIA live region announcements (`aria-live="polite"`) for moves, turns, and game outcomes.
 - Native `<dialog>` element with backdrop blur and light-dismiss fallback adhering to modern web best practices.
 
@@ -62,7 +61,6 @@ An interactive, responsive, and accessible **Tic-Tac-Toe Web Application** built
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | Place marker on focused cell |
 | <kbd>1</kbd> &ndash; <kbd>9</kbd> | Quick-place marker at cell 1 through 9 |
 | <kbd>R</kbd> | Start new round |
-| <kbd>U</kbd> | Undo last move |
 | <kbd>M</kbd> | Toggle sound effects (Mute / Unmute) |
 | <kbd>T</kbd> | Cycle color theme |
 | <kbd>?</kbd> | Open rules and keyboard shortcuts modal |
