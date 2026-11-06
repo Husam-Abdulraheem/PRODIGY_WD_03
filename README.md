@@ -1,12 +1,16 @@
 # Prodigy InfoTech — Web Development Internship
 ## Task 03: Interactive Tic-Tac-Toe Web Application
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?style=for-the-badge&logo=github)](https://husam-abdulraheem.github.io/PRODIGY_WD_03/)
+[![Deploy to GitHub Pages](https://github.com/Husam-Abdulraheem/PRODIGY_WD_03/actions/workflows/deploy.yml/badge.svg)](https://github.com/Husam-Abdulraheem/PRODIGY_WD_03/actions/workflows/deploy.yml)
 ![Prodigy InfoTech Task-03](https://img.shields.io/badge/PRODIGY__WD__03-Task--03-6366f1?style=for-the-badge&logo=target)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
 An interactive, responsive, and accessible **Tic-Tac-Toe Web Application** built with semantic **HTML5**, modern **CSS3**, and modular **JavaScript (ES6+)**. Features an unbeatable Minimax AI with alpha-beta pruning, multi-level difficulty settings, local two-player mode, dynamic SVG winning strike-through lines, Web Audio API sound synthesis, HTML5 canvas confetti celebration, and full keyboard navigation.
+
+🌐 **Live URL**: [https://husam-abdulraheem.github.io/PRODIGY_WD_03/](https://husam-abdulraheem.github.io/PRODIGY_WD_03/)
 
 ---
 
